@@ -1,0 +1,6 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 7
+names: ['Course Code', 'Course Name', 'Credits', 'Issued On', 'Percentage', 'Serial No', 'Student Name']

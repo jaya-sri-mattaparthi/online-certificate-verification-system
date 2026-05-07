@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Online Course Certificate Verification System (MOOCs) — Result</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html,body { height:100%; margin:0; }
+    body {
+      background: #000;
+      color: #e6f6ff;
+      min-height:100vh;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .card {
+      width:100%; max-width:880px;
+      background: linear-gradient(180deg, rgba(8,12,14,0.98), rgba(6,9,12,0.96));
+      border-radius:14px; padding:34px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 22px 48px rgba(0,0,0,0.6);
+    }
+    .title { text-align:center; font-size:1.6rem; margin:0 0 6px; color:#fff; }
+    .platform { text-align:center; color:rgba(230,246,255,0.88); margin-bottom:12px; }
+    .result-img { max-height:360px; border-radius:8px; display:block; margin:12px auto; border:1px solid rgba(255,255,255,0.03); }
+    .badge-success { background: linear-gradient(180deg,#064634,#0a6b4d); color:#d9f9e6; padding:14px 20px; border-radius:999px; display:inline-flex; gap:12px; align-items:center; }
+    .btn-accent { background: linear-gradient(90deg,#06c6b3 0%, #2b99f0 100%); color:#fff; padding:10px 14px; border-radius:10px; text-decoration:none; display:inline-block; }
+    .note { color: rgba(220,230,240,0.75); text-align:center; margin-top:18px; font-size:0.92rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 class="title"><strong>Online Course Certificate Verification System</strong> <span style="font-weight:400;">(MOOCs)</span></h1>
+    <p class="platform">(Coursera, Udacity, edX, Upgrad, FreeCodeCamp)</p>
+
+    <div style="text-align:center; margin-bottom:16px;">
+      {% if annotated %}
+        <img src="{{ url_for('static', filename=annotated) }}" class="result-img" alt="annotated">
+      {% elif uploaded %}
+        <img src="{{ url_for('static', filename=uploaded) }}" class="result-img" alt="uploaded">
+      {% endif %}
+    </div>
+
+    <div style="text-align:center;">
+      <h2 style="margin:0; font-size:1rem; color:rgba(230,246,255,0.9);">Verification Accuracy</h2>
+      <p style="font-size:2.25rem; font-weight:700; color:#c7d7ff; margin:8px 0 0;">{{ accuracy }}%</p>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+      {% if accuracy is string %}{% set acc_val = accuracy|float %}{% else %}{% set acc_val = accuracy %}{% endif %}
+      {% if acc_val > 90 %}
+        <div class="badge-success" style="margin:0 auto;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#b3f3d6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div style="text-align:left;">
+            <div style="font-weight:600;">Certificate Verified</div>
+            <div style="font-size:0.88rem; color:rgba(230,246,255,0.85);">This certificate matches the database with high confidence (accuracy &gt; 90%).</div>
+          </div>
+        </div>
+      {% else %}
+        <div style="display:inline-flex; gap:12px; align-items:center; background:rgba(128,18,18,0.06); padding:14px 18px; border-radius:999px; color:#ffccd5;">
+          <span style="font-size:1.6rem;">❌</span>
+          <div style="text-align:left;">
+            <div style="font-weight:700;">Verification Failed</div>
+            <div style="font-size:0.9rem; color:rgba(255,200,200,0.9);">Accuracy is below threshold. Try a clearer image or check serial number and platform.</div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+      <a href="/" class="btn-accent">Verify Another Certificate</a>
+    </div>
+
+    <p class="note">This tool uses OCR and the AI Agent. Supports certificates for Coursera, Udacity, edX, Upgrad, FreeCodeCamp. Minor extraction errors may affect accuracy.</p>
+  </div>
+</body>
+</html>

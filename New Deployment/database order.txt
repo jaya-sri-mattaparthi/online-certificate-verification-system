@@ -1,0 +1,7 @@
+0: serial_no
+1: student_name
+2: course_name
+3: issued_on
+4: course_code
+5: percentage
+6: credits
